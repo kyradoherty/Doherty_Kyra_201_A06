@@ -181,6 +181,7 @@ Consider the matrix `mat_rand` of random numbers below.
 rand_num <- c(sample(10:100, 10), sample(100:999, 10), sample(1000:2000, 10))
 
 mat_rand <- matrix(sample(rand_num, 30), ncol = 5)
+mat_rand
 ```
 
 Use an appropriate apply function to round values with 2 digits to the nearest tens, values with 3 digits to the nearest hundreds, and 4 digits to the nearest thousands.
@@ -191,8 +192,24 @@ Hint: use `MARGIN = 1:2` to apply the function to each value instead of only a r
 
 ```{r}
 
-```
+#use apply function to apply the rounding function to each element of matrix
+rounded_matrix <- apply(mat_rand, function(x){
+  num_digits <- nchar(as.character(x)) #counting number of digits in element
+  if (num_digits == 2){
+    round(x, -1) #Rounding to the nearest 10
+  } else if(num_digits == 3){
+    round(x, -2) #Rounding to the nearest 100
+  }else if(num_digits == 4){
+    round(x, -3) #Rounding to the nearest 1000
+  } else{
+    return(x)
+  }
+  
+}, MARGIN = 1:2)
 
+print(rounded_matrix)
+
+```
 
 ## Question 4 (9 points)
 
