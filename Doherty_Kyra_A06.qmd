@@ -127,6 +127,14 @@ for (player in names(player_info)) {
 
 # Print the updated player_info list
 print(player_info)
+#alternative
+player_info$MJ$height <- 78
+player_info$LJ$height <- 81
+player_info$KB$height <- 78
+player_info$KA$height <- 86
+player_info$SO$height <- 85
+
+print(player_info)
 ```
 
 
@@ -229,10 +237,19 @@ max_temps <- read_tsv("state_max_temps.tsv") |>
 ### Part a (2 points)
 
 Calculate the average temperature for each month across the whole data frame (using the data for all three states together).
-
 ```{r}
+#Removing state and year columns since they are not relevant
+temperature_values <- max_temps[, -c(1, 2)]
 
+# Calculate the mean temperature for each month across all states
+average_temperatures <- apply(temperature_values, 2, mean)
+
+# Print the result
+print(average_temperatures)
 ```
+
+
+
 
 
 ### Part b (2 points)
@@ -246,8 +263,13 @@ Create three new data frames by slicing the data by state.
 No need to print any output here.
 
 ```{r}
+CO_temps <- max_temps[max_temps$state == "CO",]
 
+OH_temps <- max_temps[max_temps$state == "OH",]
+
+VA_temps <- max_temps[max_temps$state == "VA",]
 ```
+
 
 
 ### Part c (5 points)
@@ -267,7 +289,22 @@ Example (this is NOT the answer just an example of what goes in the {}):
 Note: This code should still run successfully even if the numbers were to change.
 
 ```{r}
+#Removing state and year columns since they are not relevant
+temperature_values <- CO_temps[, -c(1, 2)]
+# Calculate the median annual temperature for each year
+median_annual <- apply(temperature_values, 1, median)
 
+# Find the year with the maximum median temperature
+max_median_year <- which.max(median_annual)
+
+# Find the year with the minimum median temperature
+min_median_year <- which.min(median_annual)
+
+# Print the sentence with the results
+print(paste("The maximum median annual temperature of", median_annual[max_median_year], 
+            "occurred in", CO_temps$year[max_median_year], 
+            "and the minimum median annual temperature of", median_annual[min_median_year],
+            "occurred in", CO_temps$year[min_median_year], "."))
 ```
 
 
@@ -280,6 +317,16 @@ Example: The number 312 would return 6 (3 + 1 + 2)
 Run your function with 935068.
 
 ```{r}
+sum_digits <- function(n) {
+  if (n < 10) {
+    return(n)  # Base case: if n is a single digit, return n
+  } else {
+    last_digit <- n %% 10  # Get the last digit
+    remaining_digits <- n %/% 10  # Get the remaining digits
+    return(last_digit + sum_digits(remaining_digits))  # Recursively call the function with remaining digits
+  }
+}
 
+sum_digits(935068)
 ```
 
