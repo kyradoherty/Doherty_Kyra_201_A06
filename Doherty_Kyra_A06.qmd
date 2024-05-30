@@ -117,23 +117,14 @@ Add a new named element to the end of each player's list called `height`. The he
 Print the `player_info` list to prove you were successful.
 
 ```{r}
-# Heights in inches
-heights <- c(MJ = 78, LJ = 81, KB = 78, KA = 86, SO = 85)
-
-# Add height to each player's list
-for (player in names(player_info)) {
-  player_info[[player]]$height <- unname(heights[player])
-}
-
-# Print the updated player_info list
-print(player_info)
-#alternative
+#Adding the height individually to each player's list
 player_info$MJ$height <- 78
 player_info$LJ$height <- 81
 player_info$KB$height <- 78
 player_info$KA$height <- 86
 player_info$SO$height <- 85
 
+#printing revised list
 print(player_info)
 ```
 
@@ -199,7 +190,6 @@ ie: 91 rounds to 90; 173 rounds to 200; 1450 rounds to 1000
 Hint: use `MARGIN = 1:2` to apply the function to each value instead of only a row/col.
 
 ```{r}
-
 #use apply function to apply the rounding function to each element of matrix
 rounded_matrix <- apply(mat_rand, function(x){
   num_digits <- nchar(as.character(x)) #counting number of digits in element
@@ -263,10 +253,13 @@ Create three new data frames by slicing the data by state.
 No need to print any output here.
 
 ```{r}
+#slicing data frame to only include values from Colorado
 CO_temps <- max_temps[max_temps$state == "CO",]
 
+#slicing data frame to only include values from Ohio
 OH_temps <- max_temps[max_temps$state == "OH",]
 
+#slicing data frame to only include values from Virginia
 VA_temps <- max_temps[max_temps$state == "VA",]
 ```
 
@@ -289,15 +282,16 @@ Example (this is NOT the answer just an example of what goes in the {}):
 Note: This code should still run successfully even if the numbers were to change.
 
 ```{r}
-#Removing state and year columns since they are not relevant
-temperature_values <- CO_temps[, -c(1, 2)]
-# Calculate the median annual temperature for each year
+#Removing state and year columns since they get in way of calculation
+temperature_values <- CO_temps[, -c(1,2)]
+
+#Calculating median temperate for each year/each row
 median_annual <- apply(temperature_values, 1, median)
 
-# Find the year with the maximum median temperature
-max_median_year <- which.max(median_annual)
 
-# Find the year with the minimum median temperature
+#Find the year with the maximum median temperature
+max_median_year <- which.max(median_annual)
+#Find the year with the minimum median temperature
 min_median_year <- which.min(median_annual)
 
 # Print the sentence with the results
@@ -305,6 +299,7 @@ print(paste("The maximum median annual temperature of", median_annual[max_median
             "occurred in", CO_temps$year[max_median_year], 
             "and the minimum median annual temperature of", median_annual[min_median_year],
             "occurred in", CO_temps$year[min_median_year], "."))
+
 ```
 
 
@@ -317,16 +312,17 @@ Example: The number 312 would return 6 (3 + 1 + 2)
 Run your function with 935068.
 
 ```{r}
-sum_digits <- function(n) {
-  if (n < 10) {
-    return(n)  # Base case: if n is a single digit, return n
-  } else {
-    last_digit <- n %% 10  # Get the last digit
-    remaining_digits <- n %/% 10  # Get the remaining digits
-    return(last_digit + sum_digits(remaining_digits))  # Recursively call the function with remaining digits
+sum_digits <- function(n){
+  if (n < 10){
+    return(n) #This is the base case
+  }else{
+    last_digit <- n %% 10 #Getting the last digit
+    remaining_digits <- n%/% 10 #remaining digits
+    return(last_digit + sum_digits(remaining_digits)) #continuously/recursively calling function with remaining digits
   }
 }
 
 sum_digits(935068)
+
 ```
 
